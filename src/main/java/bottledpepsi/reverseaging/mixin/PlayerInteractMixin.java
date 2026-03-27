@@ -23,41 +23,33 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
-
 @Mixin(Player.class)
 public abstract class PlayerInteractMixin {
 
     @Inject(method = "interactOn", at = @At("HEAD"), cancellable = true)
     private void goldenDandelionUse(Entity entity, InteractionHand hand, Vec3 hitPos, CallbackInfoReturnable<InteractionResult> cir) {
-        Player player = (Player)(Object)this;
-
-        if (player.level().isClientSide()) return;
-
+        Player player = (Player) (Object) this;
         ItemStack stack = player.getItemInHand(hand);
 
         if (!stack.is(Items.GOLDEN_DANDELION)) return;
-
         if (!(entity instanceof AgeableMob mob)) return;
-
         if (mob.isBaby()) return;
-
         if (mob instanceof Villager || mob instanceof WanderingTrader) return;
 
-        if (
-                (mob instanceof AbstractHorse horse && (horse.isWearingBodyArmor())) ||
-                        (mob instanceof Llama llama && (llama.hasChest())) ||
-                        (mob instanceof Mule mule && (mule.hasChest())) ||
-                        (mob instanceof TraderLlama traderLlama && (traderLlama.hasChest())) ||
-                        mob.hasPassenger(e -> true) ||
-                        mob.isSaddled()
-        ) {
-            return;
-        }
+        // Prevent de-aging if mob has saddle, chest, body armor, or passengers
+        boolean blocked = (mob instanceof AbstractHorse horse && horse.isWearingBodyArmor()) ||
+                (mob instanceof Llama llama && llama.hasChest()) ||
+                (mob instanceof Mule mule && mule.hasChest()) ||
+                (mob instanceof TraderLlama traderLlama && traderLlama.hasChest()) ||
+                mob.hasPassenger(e -> true) ||
+                mob.isSaddled();
 
-        mob.setAge(-24000);
+        if (blocked) return;
 
+        // Swing animation on client
         player.swing(hand);
 
+        // Play particle effect (server only)
         if (player.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     ParticleTypes.HAPPY_VILLAGER,
@@ -70,6 +62,7 @@ public abstract class PlayerInteractMixin {
             );
         }
 
+        // Play sound on both sides
         player.level().playSound(
                 null,
                 mob.blockPosition(),
@@ -79,8 +72,10 @@ public abstract class PlayerInteractMixin {
                 1.0f
         );
 
-        if (!player.isCreative()) {
-            stack.shrink(1);
+        // Apply age change and item consumption only on server
+        if (!player.level().isClientSide()) {
+            mob.setAge(-24000);
+            if (!player.isCreative()) stack.shrink(1);
         }
 
         cir.setReturnValue(InteractionResult.SUCCESS);
