@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "reverseaging",
+	"version": "${version}",
+	"name": "Reverse Aging",
+	"description": "Use the Golden Dandelion to reverse the age of most mobs, turning adults back into babies.",
+	"authors": [
+		"bottledpepsi"
+	],
+	"contact": {
+		"homepage": "https://bottledpepsi.github.io/",
+		"sources": "https://github.com/bottledpepsi/reverse-aging"
+	},
+	"license": "GPL-3.0",
+	"icon": "assets/reverseaging/icon.png",
+	"environment": "server",
+	"entrypoints": {
+		"main": [
+			"bottledpepsi.reverseaging.ReverseAging"
+		],
+		"client": [
+			"bottledpepsi.reverseaging.ReverseAgingClient"
+		]
+	},
+	"mixins": [
+		"reverseaging.mixins.json",
+		{
+			"config": "reverseaging.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.5",
+		"minecraft": "~26.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
