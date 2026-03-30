@@ -6,13 +6,17 @@
 
 ## Description
 
-Reverse Aging is a Fabric 1.26.1 mod that allows players to use the Golden Dandelion to de-age adult mobs back into their baby form.
+Reverse Aging is a Fabric 26.1 mod that allows players to use the Golden Dandelion to de-age adult mobs back into their baby form.
 
 ### Features
 - Works on horses, pigs, chickens, striders, and other animals
 - Includes particle effects and sound for visual feedback
 - Respects saddles, armor, chests, and mobs with riders
 - Does **not** work on villagers or wandering traders
+
+### Compatability
+- Works on singleplayer and server-side only
+- No client-side installation required for multiplayer
 
 ### Installation
 1. Install [Fabric Loader](https://fabricmc.net/use/).
