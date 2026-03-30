@@ -1,16 +1,19 @@
 package bottledpepsi.reverseaging;
 
-import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class ReverseAging implements ModInitializer {
-	public static final String MOD_ID = "reverseaging";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+import com.mojang.logging.LogUtils;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
-	@Override
-	public void onInitialize() {
-		LOGGER.info("ReverseAging Initialized");
-	}
+@Mod(ReverseAging.MODID)
+public class ReverseAging {
+    public static final String MODID = "reverseaging";
+    public static final Logger LOGGER = LogUtils.getLogger();
+
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event) {
+        LOGGER.info("ReverseAging Initialized");
+    }
 }
