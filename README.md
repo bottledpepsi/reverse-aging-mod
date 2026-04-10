@@ -12,7 +12,7 @@ Reverse Aging is a mod that allows players to use the Golden Dandelion to de-age
 - Works on singleplayer and server-side only
 - No client-side installation required for multiplayer
 ### Version Support
-- Minecraft 26.1 - 26.1.1
+- Minecraft 26.1x
 - Fabric and NeoForge
 ### Installation
 1. Install [Fabric Loader](https://fabricmc.net/use/) or [NeoForge](https://neoforged.net/).
